@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.springboot.instagram.domain.product.ProductRepository">
+
+	<sql id="auto_increment">
+		select
+			ifnull(max(product_code), 0) + 1
+		from
+			product_mst;
+	</sql>
+
+	<insert id="insertProduct" parameterType="com.springboot.instagram.domain.product.Product">
+		<selectKey keyProperty="product_code" resultType="Integer" order="BEFORE">
+			<include refid="auto_increment"></include>
+		</selectKey>
+		
+		insert into
+			product_mst
+		values(
+			#{product_code},
+			#{product_name}
+		);
+		insert into
+			category_mst
+		values
+		<foreach collection="category_name" item="category" separator=",">
+		(
+			0,
+			#{product_code},
+			#{category}
+		)
+		</foreach>
+		;
+		
+	</insert>
+</mapper>
+
+
+
+
+

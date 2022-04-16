@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+</head>
+
+<body>
+    <button type="button">결제하기</button>
+    <script>
+        const btn = document.querySelector('button');
+
+        var IMP = window.IMP;
+        IMP.init("imp14519436");
+        IMP_paramsObj = {
+            pg: "html5_inicis", // PG사 선택
+            pay_method: "card", // 지불 수단
+            merchant_uid: 'merchant_' + new Date().getTime(), //가맹점에서 구별할 수 있는 고유한id
+            name: "김준일 강사의 웹앱개발", // 상품명
+            amount: 1000, // 가격
+            buyer_email: "skjil1218@gmail.com",
+            buyer_name: "김준일", // 구매자 이름
+            buyer_tel: "010-9988-1916", // 구매자 연락처 
+            buyer_addr: "부산광역시 부산진구 가야동",// 구매자 주소지
+            buyer_postcode: "01181" // 구매자 우편번호
+        }
+
+        btn.onclick = () => {
+            IMP.request_pay(IMP_paramsObj, function (rsp) { // callback
+                if (rsp.success) {
+                    alert('결제 성공');
+                } else {
+                    alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>
